@@ -11,7 +11,7 @@
       <!-- 搜索与添加区域 -->
       <el-row :gutter="20">
         <el-col :span="7">
-          <el-input placeholder="请输入内容" v-model="quertInfo.query" clearable @clear="getUserList">
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
             <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
           </el-input>
         </el-col>
@@ -50,9 +50,9 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="quertInfo.pagenum"
+        :current-page="queryInfo.pagenum"
         :page-sizes="[1, 2, 5, 10]"
-        :page-size="quertInfo.pagesize"
+        :page-size="queryInfo.pagesize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
@@ -148,7 +148,7 @@ export default {
     }
     return {
       // 获取用户列表的对象
-      quertInfo: {
+      queryInfo: {
         query: '',
         // 当前页数
         pagenum: 1,
@@ -264,22 +264,21 @@ export default {
   },
   methods: {
     async getUserList () {
-      const { data: res } = await this.$http.get('users', { params: this.quertInfo })
+      const { data: res } = await this.$http.get('users', { params: this.queryInfo })
       if (res.meta.status !== 200) {
         return this.$message.error('获取用户列表失败')
       }
       this.userList = res.data.users
       this.total = res.data.total
-      console.log(res)
     },
     // 监听 pagesize 改变的事件
     handleSizeChange (newSize) {
-      this.quertInfo.pagesize = newSize
+      this.queryInfo.pagesize = newSize
       this.getUserList()
     },
     // 监听页码值改变的事件
     handleCurrentChange (newPage) {
-      this.quertInfo.pagenum = newPage
+      this.queryInfo.pagenum = newPage
       this.getUserList()
     },
     // 监听 switch 开关的改变
