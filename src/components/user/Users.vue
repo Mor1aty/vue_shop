@@ -377,13 +377,10 @@ export default {
       if (!this.selectedRoleId) {
         return this.$message.error('请选择要分配的角色')
       }
-      console.log(this.selectedRoleId)
-      console.log(this.userInfo.id)
       const { data: res } = await this.$http.put(`/users/${this.userInfo.id}/role`,
         {
           rid: this.selectedRoleId
         })
-      console.log(res)
       if (res.meta.status !== 200) {
         return this.$message.error('更新角色失败')
       }
